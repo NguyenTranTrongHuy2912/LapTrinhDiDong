@@ -164,8 +164,11 @@ export const AppButton = ({
 }: AppButtonType) => {
 
   return (
-    <Pressable></Pressable>
-      
+    <>
+      <Text style={styles.boldText}>Bài 8</Text>
+      <Pressable></Pressable>
+    </>
+
   );
 };
 
@@ -217,6 +220,7 @@ export default function App() {
       <ChooseGender></ChooseGender>
 
       {/* Bài 8 */}
+      <Text style={styles.boldText}>Bài 8</Text>
 
     </ScrollView>
   );
@@ -226,8 +230,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   boldText: {
     fontWeight: 'bold',
