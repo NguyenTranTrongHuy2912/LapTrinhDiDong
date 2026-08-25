@@ -1,24 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import UserCard from './components/Bai1';
 
-
-// Bài 1
-type UserCardType = {
-  name: string,
-  age: number,
-  isAdmin: boolean
-}
-
-const UserCard = ({ name, age, isAdmin }: UserCardType) => {
-  return (
-    <>
-      <Text>{name}</Text>
-      <Text>{age}</Text>
-      <Text style={{ backgroundColor: isAdmin ? 'red' : 'blue', color: 'white' }}>{isAdmin ? "Admin" : "Not admin"}</Text>
-    </>
-  )
-}
 
 // Bài 2
 const Counter = () => {
@@ -230,6 +214,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    margin: 10
   },
   boldText: {
     fontWeight: 'bold',
