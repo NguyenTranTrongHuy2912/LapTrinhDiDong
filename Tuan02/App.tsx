@@ -11,10 +11,10 @@ type Post = {
 }
 
 const Bai9 = () => {
-  const url = 'https://jsonplaceholder.typicode.com/todos'
+  const url9 = 'https://jsonplaceholder.typicode.com/todos'
   const [posts, setPosts] = useState<Post[]>([])
   useEffect(() => {
-    fetch(url)
+    fetch(url9)
       .then((res) => res.json())
       .then((data: Post[]) => setPosts(data))
   }, [])
@@ -35,13 +35,70 @@ const Bai9 = () => {
   )
 }
 
+//Bai 10
+type User = {
+  id: string,
+  name: string,
+  username: string,
+  email: string,
+  address: Adress,
+  phone: string,
+  website: string,
+  company: Company
+}
+
+type Company = {
+  name: string,
+  catchPhrase: string,
+  bs: string,
+}
+
+type Adress = {
+  street: string,
+  suite: string,
+  city: string,
+  zipcode: string,
+  geo: Geo
+}
+
+type Geo = {
+  lat: "-37.3159",
+  lng: "81.1496",
+}
+
+const Bai10 = () => {
+  const url10 = 'https://jsonplaceholder.typicode.com/users/1'
+  const [user, setUser] = useState<(User | null)>(null)
+  useEffect(() => {
+    fetch(url10)
+    .then((res)=> res.json())
+    .then((user)=> setUser(user))
+  }, [])
+
+  return (
+    <>
+      <FlatList
+        data={user}
+        renderItem={({ item }) => {
+          return <View style={{ flex: 1, flexDirection: 'row', gap: 20 }}>
+            
+          </View>
+        }}
+        keyExtractor={item => item.id}
+      />
+    </>
+  )
+
+}
+
 export default function App() {
 
 
   return (
     <ScrollView style={styles.container}>
-      
-      <Bai9></Bai9>
+
+      {/* <Bai9></Bai9> */}
+      {/* Bài 10 */}
 
     </ScrollView>
   );
