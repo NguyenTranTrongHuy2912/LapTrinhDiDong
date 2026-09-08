@@ -8,15 +8,15 @@ const Header = () => {
         <View style={styles.container}>
             <View>
                 <View>
-                    <Image source={require('../assets/logo2.jpg')} style={{ width: 80, height: 50 }} />
+                    <Image source={require('../assets/logo.jpg')} style={{ width: 150, height: 45 }} />
                 </View>
             </View>
             <View style={styles.searchbar}>
                 <Pressable onPress={() => { console.log('Clicked') }}>
-                    <FontAwesome name="search" size={24} color="black" />
+                    <FontAwesome name="search" size={24} color="white" />
                 </Pressable>
                 <Pressable onPress={() => { console.log('Clicked') }}>
-                    <FontAwesome name="shopping-cart" size={24} color="black" />
+                    <FontAwesome name="shopping-cart" size={24} color="white" />
                 </Pressable>
 
             </View>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         padding: 16,
         height: 56,
         width: '100%',
-        backgroundColor: 'gray',
+        backgroundColor: '#165364',
     },
     searchbar: {
         display: 'flex',
