@@ -2,6 +2,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 type BookCardProps = {
+  id: string,
   title: string,
   author: string,
   price: number,
@@ -13,9 +14,9 @@ const BookCard = ({ title, author, price, imageUrl }: BookCardProps) => {
     <View style={styles.container}>
       <View style={styles.cover_image}>
         {imageUrl ? (
-          <Image 
-            source={{ uri: imageUrl }} 
-            style={styles.image} 
+          <Image
+            source={{ uri: imageUrl }}
+            style={styles.image}
             resizeMode="cover"
           />
         ) : (
@@ -37,9 +38,9 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'flex-start', 
+    alignItems: 'flex-start',
     width: '100%',
-    backgroundColor: '#f5f5f5', 
+    backgroundColor: '#f5f5f5',
     padding: 10,
     gap: 10
   },
