@@ -1,18 +1,21 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 
 type BookCardProps = {
-  id: string,
+  id?: string, 
   title: string,
-  author: string,
+  author?: string,
   price: number,
-  imageUrl?: string
+  imageUrl?: string,
+  variant?: 'list' | 'grid'
 }
 
-const BookCard = ({ title, author, price, imageUrl }: BookCardProps) => {
+const BookCard = ({ title, author, price, imageUrl, variant = 'list' }: BookCardProps) => {
+  const isGrid = variant === 'grid';
+
   return (
-    <View style={styles.container}>
-      <View style={styles.cover_image}>
+    <View style={[styles.container, isGrid ? styles.gridContainer : styles.listContainer]}>
+      <View style={[styles.cover_image, isGrid ? styles.gridImageContainer : styles.listImageContainer]}>
         {imageUrl ? (
           <Image
             source={{ uri: imageUrl }}
@@ -20,13 +23,22 @@ const BookCard = ({ title, author, price, imageUrl }: BookCardProps) => {
             resizeMode="cover"
           />
         ) : (
-          <Text style={{ textAlign: 'center', marginTop: 40, fontSize: 12 }}>Ảnh Bìa</Text>
+          <View style={styles.imagePlaceholder}>
+            <Text style={styles.imageText}>Ảnh Bìa</Text>
+          </View>
         )}
       </View>
-      <View style={styles.information}>
-        <Text numberOfLines={2} style={styles.titleText}>{title}</Text>
-        <Text>{author}</Text>
-        <Text style={styles.priceText}>{price} đ</Text>
+
+      <View style={[styles.information, isGrid ? styles.gridInfo : styles.listInfo]}>
+        <Text numberOfLines={isGrid ? 1 : 2} style={[styles.titleText, isGrid && styles.textCenter]}>
+          {title}
+        </Text>
+
+        {!isGrid && <Text>{author}</Text>}
+
+        <Text style={[styles.priceText, isGrid && styles.textCenter]}>
+          {price.toLocaleString('vi-VN')} đ
+        </Text>
       </View>
     </View>
   )
@@ -36,20 +48,81 @@ export default BookCard
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
+    backgroundColor: '#fff',
+    overflow: 'hidden',
+  },
+  // --- STYLE CHO LIST ---
+  listContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
     width: '100%',
     backgroundColor: '#f5f5f5',
     padding: 10,
-    gap: 10
+    gap: 10,
   },
-  cover_image: {
+  listImageContainer: {
     height: 110,
     width: 80,
     backgroundColor: '#ccc',
     borderWidth: 1,
     borderRadius: 5,
+  },
+  listInfo: {
+    flex: 1,
+    height: 110,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+
+  // --- STYLE CHO GRID ---
+  gridContainer: {
+    width: '100%',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  gridImageContainer: {
+    width: '100%',
+    aspectRatio: 2/3,
+    backgroundColor: '#d3d3d3',
+  },
+  gridInfo: {
+    padding: 8,
+    borderTopWidth: 1,
+    borderColor: '#e0e0e0',
+    backgroundColor: '#e8f5e9',
+    justifyContent: 'center',
+  },
+
+  // --- THUỘC TÍNH CHUNG ---
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  imagePlaceholder: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageText: {
+    fontSize: 12,
+    color: '#666',
+  },
+  titleText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginBottom: 4,
+  },
+  priceText: {
+    color: 'green',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  textCenter: {
+    textAlign: 'center',
+  },
+  cover_image: {
+    backgroundColor: '#ccc',
     overflow: 'hidden',
   },
   information: {
@@ -57,17 +130,5 @@ const styles = StyleSheet.create({
     height: 110,
     flexDirection: 'column',
     justifyContent: 'space-between',
-  },
-  titleText: {
-    fontWeight: 'bold',
-    fontSize: 16
-  },
-  priceText: {
-    color: 'green',
-    fontWeight: 'bold'
-  },
-  image: {
-    width: '100%',
-    height: '100%',
   },
 })
