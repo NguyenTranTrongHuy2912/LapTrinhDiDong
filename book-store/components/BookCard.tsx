@@ -7,10 +7,11 @@ type BookCardProps = {
   author?: string,
   price: number,
   imageUrl?: string,
-  variant?: 'list' | 'grid'
+  variant?: 'list' | 'grid',
+  discount?: string,
 }
 
-const BookCard = ({ title, author, price, imageUrl, variant = 'list' }: BookCardProps) => {
+const BookCard = ({ title, author, price, imageUrl, variant = 'list', discount }: BookCardProps) => {
   const isGrid = variant === 'grid';
 
   return (
@@ -25,6 +26,12 @@ const BookCard = ({ title, author, price, imageUrl, variant = 'list' }: BookCard
         ) : (
           <View style={styles.imagePlaceholder}>
             <Text style={styles.imageText}>Ảnh Bìa</Text>
+          </View>
+        )}
+
+        {discount && (
+          <View style={styles.badgeContainer}>
+            <Text style={styles.badgeText}>{discount}</Text>
           </View>
         )}
       </View>
@@ -51,7 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     overflow: 'hidden',
   },
-  // --- STYLE CHO LIST ---
+  // LIST
   listContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -74,7 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 
-  // --- STYLE CHO GRID ---
+  // GRID
   gridContainer: {
     width: '100%',
     borderRadius: 8,
@@ -94,7 +101,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  // --- THUỘC TÍNH CHUNG ---
+  // BADGE
+  badgeContainer: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    backgroundColor: '#e74c3c',
+    paddingHorizontal: 9,
+    paddingVertical: 3,
+    borderRadius: 4,
+    zIndex: 1,
+  },
+
+  badgeText: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+
+  // COMMON
   image: {
     width: '100%',
     height: '100%',
