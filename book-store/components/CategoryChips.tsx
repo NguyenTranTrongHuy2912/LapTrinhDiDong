@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 const CATEGORIES = [
@@ -12,7 +12,7 @@ const CategoryChips = () => {
             <View style={styles.container}>
                 {CATEGORIES.map((item, index) => (
                     <View key={index} style={styles.chip}>
-                        <Text style={styles.chipText}>{item}</Text>
+                        <Text>{item}</Text>
                     </View>
                 ))}
             </View>
@@ -44,8 +44,5 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'indigo',
         backgroundColor: '#ffffff',
-    },
-    chipText: {
-        color: '#333',
     }
 })
