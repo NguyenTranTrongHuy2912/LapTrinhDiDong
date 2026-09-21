@@ -13,9 +13,7 @@ export default function App() {
       <CategoryChips></CategoryChips>
 
       <ScrollView style={styles.contentArea}>
-        <BookGrid></BookGrid>
-        {/* Bài 1
-        <View style={styles.listContainer}>
+         {/* <View style={styles.listContainer}>
           <BookCard
             id='1'
             title="Sách 1"
@@ -52,6 +50,9 @@ export default function App() {
             imageUrl="https://picsum.photos/id/1005/80/110"
           />
         </View> */}
+        <BookGrid></BookGrid>
+
+       
       </ScrollView>
     </SafeAreaView>
   );
@@ -59,17 +60,15 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Chiếm toàn bộ màn hình điện thoại
+    flex: 1,
     backgroundColor: '#ffffff',
-    // Dòng dưới giúp UI không bị đè vào thanh trạng thái (tai thỏ, pin, sóng...) trên Android
-    // paddingTop: StatusBar.currentHeight || 0, 
   },
   contentArea: {
     flex: 1,
-    backgroundColor: '#e9ecef', // Màu nền phụ để dễ phân biệt vùng content
+    backgroundColor: '#e9ecef',
   },
   listContainer: {
     padding: 16,
-    gap: 15, // Tạo khoảng cách giữa các Book Card xếp chồng lên nhau
+    gap: 15,
   }
 });
