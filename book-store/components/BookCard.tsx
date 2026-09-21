@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 type BookCardProps = {
-  id?: string, 
+  id?: string,
   title: string,
   author?: string,
   price: number,
@@ -15,39 +15,41 @@ const BookCard = ({ title, author, price, imageUrl, variant = 'list', discount }
   const isGrid = variant === 'grid';
 
   return (
-    <View style={[styles.container, isGrid ? styles.gridContainer : styles.listContainer]}>
-      <View style={[styles.cover_image, isGrid ? styles.gridImageContainer : styles.listImageContainer]}>
-        {imageUrl ? (
-          <Image
-            source={{ uri: imageUrl }}
-            style={styles.image}
-            resizeMode="cover"
-          />
-        ) : (
-          <View style={styles.imagePlaceholder}>
-            <Text style={styles.imageText}>Ảnh Bìa</Text>
-          </View>
-        )}
+    <TouchableOpacity activeOpacity={0.8}>
+      <View style={[styles.container, isGrid ? styles.gridContainer : styles.listContainer]}>
+        <View style={[styles.cover_image, isGrid ? styles.gridImageContainer : styles.listImageContainer]}>
+          {imageUrl ? (
+            <Image
+              source={{ uri: imageUrl }}
+              style={styles.image}
+              resizeMode="cover"
+            />
+          ) : (
+            <View style={styles.imagePlaceholder}>
+              <Text style={styles.imageText}>Ảnh Bìa</Text>
+            </View>
+          )}
 
-        {discount && (
-          <View style={styles.badgeContainer}>
-            <Text style={styles.badgeText}>{discount}</Text>
-          </View>
-        )}
+          {discount && (
+            <View style={styles.badgeContainer}>
+              <Text style={styles.badgeText}>{discount}</Text>
+            </View>
+          )}
+        </View>
+
+        <View style={[styles.information, isGrid ? styles.gridInfo : styles.listInfo]}>
+          <Text numberOfLines={isGrid ? 1 : 2} style={[styles.titleText, isGrid && styles.textCenter]}>
+            {title}
+          </Text>
+
+          {!isGrid && <Text>{author}</Text>}
+
+          <Text style={[styles.priceText, isGrid && styles.textCenter]}>
+            {price.toLocaleString('vi-VN')} đ
+          </Text>
+        </View>
       </View>
-
-      <View style={[styles.information, isGrid ? styles.gridInfo : styles.listInfo]}>
-        <Text numberOfLines={isGrid ? 1 : 2} style={[styles.titleText, isGrid && styles.textCenter]}>
-          {title}
-        </Text>
-
-        {!isGrid && <Text>{author}</Text>}
-
-        <Text style={[styles.priceText, isGrid && styles.textCenter]}>
-          {price.toLocaleString('vi-VN')} đ
-        </Text>
-      </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
   },
   gridImageContainer: {
     width: '100%',
-    aspectRatio: 2/3,
+    aspectRatio: 2 / 3,
     backgroundColor: '#d3d3d3',
   },
   gridInfo: {
