@@ -4,6 +4,7 @@ import Header from './components/Header';
 import BookCard from './components/BookCard';
 import CategoryChips from './components/CategoryChips';
 import BookGrid from './components/BookGrid';
+import FloatingCartButton from './components/FloatingCartButton';
 
 export default function App() {
   return (
@@ -51,9 +52,10 @@ export default function App() {
           />
         </View> */}
         <BookGrid></BookGrid>
-
+        
        
       </ScrollView>
+      <FloatingCartButton></FloatingCartButton>
     </SafeAreaView>
   );
 }
