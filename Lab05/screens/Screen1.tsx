@@ -7,35 +7,23 @@ import {
   View,
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { StaticScreenProps, useNavigation } from '@react-navigation/native'
-import { ColorKey, PHONE_COLORS } from './Screen2'
+import { useNavigation } from '@react-navigation/native'
 
-type Props = StaticScreenProps<{ color?: ColorKey } | undefined>
 
-const Screen1 = ({ route }: Props) => {
+const Screen1 = ({ route }: any) => {
   const navigation = useNavigation<any>()
-  const [selectedColor, setSelectedColor] = useState<ColorKey>('blue')
+  const [image, setImage] = useState(require('../assets/vs_blue.png'))
 
-  // Khi Screen2 trả về màu mới (qua params) -> cập nhật lại state
   useEffect(() => {
-    const color = route.params?.color
-    if (color) {
-      setSelectedColor(color)
+    if (route.params?.image) {
+      setImage(route.params.image)
     }
-  }, [route.params?.color])
+  }, [route.params?.image])
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Ảnh sản phẩm - đổi theo màu đã chọn */}
-        <Image
-          source={PHONE_COLORS[selectedColor].image}
-          style={styles.productImage}
-          resizeMode="contain"
-        />
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <Image source={image} style={styles.productImage} resizeMode="contain" />
 
         <Text style={styles.title}>Điện Thoại Vsmart Joy 3 - Hàng chính hãng</Text>
 
@@ -66,7 +54,7 @@ const Screen1 = ({ route }: Props) => {
         <TouchableOpacity
           style={styles.colorButton}
           activeOpacity={0.7}
-          onPress={() => navigation.navigate('Screen2', { color: selectedColor })}
+          onPress={() => navigation.navigate('Screen2', { image })}
         >
           <Text style={styles.colorButtonText}>4 MÀU-CHỌN MÀU</Text>
           <Text style={styles.arrow}>{'>'}</Text>

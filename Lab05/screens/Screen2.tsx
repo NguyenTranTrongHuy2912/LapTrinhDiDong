@@ -1,89 +1,44 @@
-import {
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { StaticScreenProps, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 
-export type ColorKey = 'silver' | 'red' | 'black' | 'blue'
+// Danh sách 4 màu: mã màu để vẽ ô vuông + ảnh điện thoại tương ứng
+const colors = [
+    { hex: '#bfc3c4', image: require('../assets/vs_silver.png') },
+    { hex: '#E03123', image: require('../assets/vs_red.png') },
+    { hex: '#000000', image: require('../assets/vs_black.png') },
+    { hex: '#2A4794', image: require('../assets/vs_blue.png') },
+]
 
-export const PHONE_COLORS: Record<
-    ColorKey,
-    { label: string; hex: string; image: any }
-> = {
-    silver: {
-        label: 'Bạc',
-        hex: '#C5F1FB',
-        image: require('../assets/vs_silver.png'),
-    },
-    red: {
-        label: 'Đỏ',
-        hex: '#E03123',
-        image: require('../assets/vs_red.png'),
-    },
-    black: {
-        label: 'Đen',
-        hex: '#000000',
-        image: require('../assets/vs_black.png'),
-    },
-    blue: {
-        label: 'Xanh',
-        hex: '#2A4794',
-        image: require('../assets/vs_blue.png'),
-    },
-}
-
-const COLOR_KEYS = Object.keys(PHONE_COLORS) as ColorKey[]
-
-type Props = StaticScreenProps<{ color: ColorKey }>
-
-const Screen2 = ({ route }: Props) => {
+const Screen2 = ({ route }: any) => {
     const navigation = useNavigation<any>()
-    const [selectedColor, setSelectedColor] = useState<ColorKey>(
-        route.params?.color,
-    )
+    const [image, setImage] = useState(route.params?.image)
 
-    // Đồng bộ lại nếu params thay đổi
     useEffect(() => {
-        setSelectedColor(route.params.color)
-    }, [route.params.color])
-
-    // Bấm XONG: quay về Screen1 và gửi màu đã chọn
-    const handleDone = () => {
-        navigation.navigate('Screen1', { color: selectedColor })
-    }
+        if (route.params?.image) {
+            setImage(route.params.image)
+        }
+    }, [route.params?.image])
 
     return (
         <View style={styles.container}>
-            {/* Phần đầu: ảnh + tên sản phẩm */}
             <View style={styles.header}>
-                <Image
-                    source={PHONE_COLORS[selectedColor].image}
-                    style={styles.thumb}
-                    resizeMode="contain"
-                />
-                <Text style={styles.title}>
-                    Điện Thoại Vsmart Joy 3{'\n'}Hàng chính hãng
-                </Text>
+                <Image source={image} style={styles.thumb} resizeMode="contain" />
+                <Text style={styles.title}>Điện Thoại Vsmart Joy 3{'\n'}Hàng chính hãng</Text>
             </View>
 
-            {/* Phần chọn màu */}
             <View style={styles.body}>
                 <Text style={styles.label}>Chọn một màu bên dưới:</Text>
 
                 <View style={styles.swatches}>
-                    {COLOR_KEYS.map(key => (
+                    {colors.map(item => (
                         <TouchableOpacity
-                            key={key}
                             activeOpacity={0.8}
-                            onPress={() => setSelectedColor(key)}
+                            onPress={() => setImage(item.image)}
                             style={[
                                 styles.swatch,
-                                { backgroundColor: PHONE_COLORS[key].hex },
-                                selectedColor === key && styles.swatchSelected,
+                                { backgroundColor: item.hex },
+                                image === item.image && styles.swatchSelected,
                             ]}
                         />
                     ))}
@@ -92,7 +47,7 @@ const Screen2 = ({ route }: Props) => {
                 <TouchableOpacity
                     style={styles.doneButton}
                     activeOpacity={0.8}
-                    onPress={handleDone}
+                    onPress={() => navigation.navigate('Screen1', { image })}
                 >
                     <Text style={styles.doneText}>XONG</Text>
                 </TouchableOpacity>
