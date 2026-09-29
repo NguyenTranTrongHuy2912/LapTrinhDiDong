@@ -5,6 +5,7 @@ import {
   Alert,
   FlatList,
   Platform,
+  RefreshControl,
   StyleSheet,
   Switch,
   Text,
@@ -20,13 +21,23 @@ export default function App() {
   const [isTile, setIsTile] = useState(false);
   const url = 'https://6abb6234b2118ed7abb86df1.mockapi.io/movie';
 
-  useEffect(() => {
+  const loadMovies = () => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => setMovies(data))
       .catch((err) => console.error('Lỗi: ', err))
-      .finally(() => setLoading(false));
-  }, []);
+      .finally(() => {
+        setLoading(false);
+        setRefreshing(false);
+      });
+  };
+
+  useEffect(loadMovies, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    loadMovies();
+  };
 
   const handleSelect = useCallback(
     (id: string) => {
@@ -71,6 +82,12 @@ export default function App() {
             )}
             columnWrapperStyle={isTile ? styles.columnWrapper : undefined} // d.
             contentContainerStyle={styles.listContainer}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
           />
         )}
 
