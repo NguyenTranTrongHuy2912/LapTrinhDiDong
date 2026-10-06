@@ -12,7 +12,7 @@ const ProductCard = ({ imageUrl, title, price }: BikeProps) => {
         <View style={styles.container}>
             <TouchableOpacity style={styles.heart}>♡</TouchableOpacity>
             <Image source={imageUrl} resizeMode="contain" style={styles.pic} />
-            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.title} numberOfLines={2}>{title}</Text>
             <Text style={styles.price2}><Text style={styles.price1}>$</Text>{price}</Text>
         </View>
     )

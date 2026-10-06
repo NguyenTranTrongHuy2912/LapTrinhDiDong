@@ -1,8 +1,10 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import ProductCard from '../components/ProductCard'
+import { useNavigation } from '@react-navigation/native'
 
 const Screen02 = () => {
+    const navigation = useNavigation<any>()
     return (
         <View style={styles.container}>
             <Text style={styles.text1}>The world's Best Bike</Text>
@@ -12,13 +14,24 @@ const Screen02 = () => {
                 <TouchableOpacity activeOpacity={0.5} style={styles.tag}><Text style={styles.text3}>Mountain</Text></TouchableOpacity>
             </View>
             <View style={styles.products}>
-
-                <TouchableOpacity activeOpacity={0.5}><ProductCard imageUrl={require('../assets/blue.png')} title="Pinarello" price={1500} /></TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.5}><ProductCard imageUrl={require('../assets/red1.png')} title="Pina Mountai" price={1700} /></TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.5}><ProductCard imageUrl={require('../assets/purple.png')} title="Pina Bike" price={1500} /></TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.5}><ProductCard imageUrl={require('../assets/red2.png')} title="Pinarello" price={1900} /></TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.5}><ProductCard imageUrl={require('../assets/purple.png')} title="Pinarello" price={2700} /></TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.5}><ProductCard imageUrl={require('../assets/red1.png')} title="Pinarello" price={1350} /></TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Detail')}>
+                    <ProductCard imageUrl={require('../assets/blue.png')} title="Pinarello" price={1500} />
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Detail')}>
+                    <ProductCard imageUrl={require('../assets/red1.png')} title="Pina Mountai" price={1700} />
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Detail')}>
+                    <ProductCard imageUrl={require('../assets/purple.png')} title="Pina Bike" price={1500} />
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Detail')}>
+                    <ProductCard imageUrl={require('../assets/red2.png')} title="Pinarello" price={1900} />
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Detail')}>
+                    <ProductCard imageUrl={require('../assets/purple.png')} title="Pinarello" price={2700} />
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Detail')}>
+                    <ProductCard imageUrl={require('../assets/red1.png')} title="Pinarello" price={1350} />
+                </TouchableOpacity>
             </View>
 
         </View>
