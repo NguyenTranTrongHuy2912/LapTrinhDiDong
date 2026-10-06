@@ -3,6 +3,7 @@ import Screen1 from './screens/Screen1';
 import Screen2 from './screens/Screen2';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStaticNavigation } from '@react-navigation/native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 // npm install @react-navigation/native @react-navigation/native-stack
 // npm install react-native-screens react-native-safe-area-context
@@ -20,7 +21,12 @@ const Navigation = createStaticNavigation(RootStack);
 
 export default function App() {
   return (
-    <Navigation />
+    <SafeAreaProvider>
+      <SafeAreaView>
+        <Navigation />
+      </SafeAreaView>
+    </SafeAreaProvider>
+
   );
 }
 
