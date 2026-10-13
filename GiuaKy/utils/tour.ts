@@ -16,20 +16,18 @@ export type TourGroup = {
 };
 
 export function groupByCity(tours: Tour[]): TourGroup[] {
-  const groups = new Map<string, Tour[]>();
+  const groups: TourGroup[] = [];
 
-  tours.forEach((tour) => {
-    const cityTours = groups.get(tour.city) ?? [];
-    cityTours.push(tour);
-    groups.set(tour.city, cityTours);
-  });
+  for (const tour of tours) {
+    let group = groups.find((g) => g.title === tour.city);
+    if (!group) {
+      group = { title: tour.city, data: [] };
+      groups.push(group);
+    }
+    group.data.push(tour);
+  }
 
-  return Array.from(groups, ([title, data]) => ({
-    title,
-    data: [...data].sort((firstTour, secondTour) =>
-      firstTour.departure.localeCompare(secondTour.departure),
-    ),
-  })).sort((firstGroup, secondGroup) =>
-    firstGroup.title.localeCompare(secondGroup.title),
-  );
+  groups.forEach((g) => g.data.sort((a, b) => a.departure.localeCompare(b.departure)));
+  groups.sort((a, b) => a.title.localeCompare(b.title));
+  return groups;
 }
