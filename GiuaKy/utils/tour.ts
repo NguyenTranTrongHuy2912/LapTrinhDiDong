@@ -1,14 +1,4 @@
-export type Tour = {
-  id: string;
-  name: string;
-  city: string;
-  days: number;
-  price: number;
-  seats: number;
-  departure: string;
-  image: string;
-  isFavorite: boolean;
-};
+import type { Tour } from '../components/TourItem';
 
 export type TourGroup = {
   title: string;
@@ -30,4 +20,19 @@ export function groupByCity(tours: Tour[]): TourGroup[] {
   groups.forEach((g) => g.data.sort((a, b) => a.departure.localeCompare(b.departure)));
   groups.sort((a, b) => a.title.localeCompare(b.title));
   return groups;
+}
+
+export function formatDate(date: string): string {
+  const [year, month, day] = date.split('-');
+  return `${day}/${month}/${year}`;
+}
+
+export function getSeatLabel(seats: number): string {
+  if (seats === 0) return 'Hết chỗ';
+  if (seats <= 3) return `Chỉ còn ${seats} chỗ`;
+  return `Còn ${seats} chỗ`;
+}
+
+export function formatPrice(price: number): string {
+  return String(price).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' ₫';
 }

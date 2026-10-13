@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   SectionList,
   StyleSheet,
   Text,
@@ -8,7 +9,8 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { groupByCity, Tour } from './utils/tour';
+import TourItem, { Tour } from './components/TourItem';
+import { formatDate, formatPrice, groupByCity } from './utils/tour';
 
 const API_URL = 'https://6abb6234b2118ed7abb86df1.mockapi.io/tours';
 
@@ -24,6 +26,20 @@ export default function App() {
       .catch(() => setTours([]))
       .finally(() => setLoading(false));
   }, []);
+
+  const showDetail = (tour: Tour) => {
+    Alert.alert(
+      tour.name,
+      `Khởi hành: ${formatDate(tour.departure)}\nSố ngày: ${tour.days}\nGiá: ${formatPrice(tour.price)}`,
+    );
+    alert(
+      `${tour.name}\nKhởi hành: ${formatDate(tour.departure)}\nSố ngày: ${tour.days}\nGiá: ${formatPrice(tour.price)}`
+    );
+  };
+
+  const toggleFavorite = (id: string, next: boolean) => {
+    setTours((prev) => prev.map((t) => (t.id === id ? { ...t, isFavorite: next } : t)));
+  };
 
   return (
     <SafeAreaProvider>
@@ -52,10 +68,7 @@ export default function App() {
               </Text>
             )}
             renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <Text>{item.departure} · {item.days} ngày</Text>
-              </View>
+              <TourItem tour={item} onPress={showDetail} onToggleFavorite={toggleFavorite} />
             )}
           />
         )}
@@ -83,6 +96,4 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     padding: 10,
   },
-  item: { padding: 14, borderBottomWidth: 1, borderBottomColor: '#eee' },
-  itemName: { fontSize: 16, fontWeight: '600', marginBottom: 4 },
 });
