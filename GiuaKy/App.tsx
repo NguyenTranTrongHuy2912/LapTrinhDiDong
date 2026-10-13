@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  FlatList,
   SectionList,
   StyleSheet,
   Text,
@@ -32,14 +33,39 @@ export default function App() {
       tour.name,
       `Khởi hành: ${formatDate(tour.departure)}\nSố ngày: ${tour.days}\nGiá: ${formatPrice(tour.price)}`,
     );
-    alert(
-      `${tour.name}\nKhởi hành: ${formatDate(tour.departure)}\nSố ngày: ${tour.days}\nGiá: ${formatPrice(tour.price)}`
-    );
   };
 
   const toggleFavorite = (id: string, next: boolean) => {
     setTours((prev) => prev.map((t) => (t.id === id ? { ...t, isFavorite: next } : t)));
   };
+
+  const favorites = tours.filter((t) => t.isFavorite);
+
+  const favoriteHeader = (
+    <View style={styles.favSection}>
+      <Text style={styles.favTitle}>Tour yêu thích ({favorites.length})</Text>
+      {favorites.length === 0 ? (
+        <Text style={styles.favEmpty}>Chưa có tour yêu thích</Text>
+      ) : (
+        <FlatList
+          data={favorites}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
+          contentContainerStyle={styles.favList}
+          renderItem={({ item }) => (
+            <TourItem
+              tour={item}
+              compact
+              onPress={showDetail}
+              onToggleFavorite={toggleFavorite}
+            />
+          )}
+        />
+      )}
+    </View>
+  );
 
   return (
     <SafeAreaProvider>
@@ -61,6 +87,7 @@ export default function App() {
           <SectionList
             sections={groupByCity(tours)}
             keyExtractor={(item) => item.id}
+            ListHeaderComponent={favoriteHeader}
             stickySectionHeadersEnabled
             renderSectionHeader={({ section }) => (
               <Text style={styles.sectionHeader}>
@@ -89,6 +116,10 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
   },
+  favSection: { paddingVertical: 12 },
+  favTitle: { fontSize: 18, fontWeight: '700', paddingHorizontal: 16, marginBottom: 8 },
+  favEmpty: { paddingHorizontal: 16, color: '#666' },
+  favList: { paddingHorizontal: 16 },
   loading: { marginTop: 40 },
   sectionHeader: {
     backgroundColor: '#e8f0fe',
