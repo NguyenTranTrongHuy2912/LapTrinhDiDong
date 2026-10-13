@@ -35,8 +35,25 @@ export default function App() {
     );
   };
 
-  const toggleFavorite = (id: string, next: boolean) => {
-    setTours((prev) => prev.map((t) => (t.id === id ? { ...t, isFavorite: next } : t)));
+  const setFavorite = (id: string, value: boolean) => {
+    setTours((prev) => prev.map((t) => (t.id === id ? { ...t, isFavorite: value } : t)));
+  };
+
+  const toggleFavorite = async (id: string, next: boolean) => {
+    setFavorite(id, next); // cập nhật ngay, không chờ API
+
+    try {
+      const res = await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isFavorite: next }),
+      });
+      if (!res.ok) throw new Error('PUT failed');
+    } catch {
+      setFavorite(id, !next); // lỗi thì hoàn tác
+      Alert.alert('Lỗi', 'Không thể cập nhật yêu thích. Vui lòng thử lại.');
+      alert('Không thể cập nhật yêu thích. Vui lòng thử lại.');
+    }
   };
 
   const favorites = tours.filter((t) => t.isFavorite);
