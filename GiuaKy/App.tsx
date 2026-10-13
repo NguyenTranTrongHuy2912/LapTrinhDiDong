@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
   FlatList,
+  RefreshControl,
   SectionList,
   StyleSheet,
   Text,
@@ -20,13 +21,30 @@ export default function App() {
   const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const loadTours = () =>
     fetch(API_URL)
       .then((res) => res.json())
       .then((data) => setTours(data))
-      .catch(() => setTours([]))
-      .finally(() => setLoading(false));
+      .catch(() => {});
+
+  useEffect(() => {
+    loadTours().finally(() => setLoading(false));
   }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    loadTours().finally(() => setRefreshing(false)); // searchText giữ nguyên
+  };
+
+  // Lọc theo tên (không phân biệt hoa thường, bỏ khoảng trắng đầu/cuối).
+  // groupByCity chỉ tạo nhóm cho tour còn lại nên nhóm rỗng tự biến mất.
+  const sections = useMemo(() => {
+    const keyword = searchText.trim().toLowerCase();
+    const filtered = tours.filter((t) => t.name.toLowerCase().includes(keyword));
+    return groupByCity(filtered);
+  }, [tours, searchText]);
 
   const showDetail = (tour: Tour) => {
     Alert.alert(
@@ -52,7 +70,6 @@ export default function App() {
     } catch {
       setFavorite(id, !next); // lỗi thì hoàn tác
       Alert.alert('Lỗi', 'Không thể cập nhật yêu thích. Vui lòng thử lại.');
-      alert('Không thể cập nhật yêu thích. Vui lòng thử lại.');
     }
   };
 
@@ -102,7 +119,13 @@ export default function App() {
           <ActivityIndicator size="large" style={styles.loading} />
         ) : (
           <SectionList
-            sections={groupByCity(tours)}
+            sections={sections}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            ListEmptyComponent={
+              <Text style={styles.empty}>Không tìm thấy tour phù hợp</Text>
+            }
             keyExtractor={(item) => item.id}
             ListHeaderComponent={favoriteHeader}
             stickySectionHeadersEnabled
@@ -137,6 +160,7 @@ const styles = StyleSheet.create({
   favTitle: { fontSize: 18, fontWeight: '700', paddingHorizontal: 16, marginBottom: 8 },
   favEmpty: { paddingHorizontal: 16, color: '#666' },
   favList: { paddingHorizontal: 16 },
+  empty: { textAlign: 'center', padding: 20, color: '#666' },
   loading: { marginTop: 40 },
   sectionHeader: {
     backgroundColor: '#e8f0fe',
