@@ -8,9 +8,9 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView>
         <StatusBar style="dark" />
-        <View style={styles.container}>
+        <View style={styles.header}>
           <Text style={styles.title}>Tour Việt</Text>
           <Text style={styles.studentInfo}>23671451 – Nguyễn Trần Trọng Huy</Text>
           <TextInput
@@ -20,6 +20,9 @@ export default function App() {
             onChangeText={setSearchText}
           />
         </View>
+        <View>
+          Helo
+        </View>
       </SafeAreaView>
     </SafeAreaProvider>
 
@@ -27,13 +30,12 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-  container: {
+  header: {
     flex: 1,
     backgroundColor: '#fff',
     padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#030303',
   },
   title: {
     fontSize: 28,
