@@ -19,7 +19,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [isTile, setIsTile] = useState(false);
-  const url = 'https://6abb6234b2118ed7abb86df1.mockapi.io/movie';
+  const url = 'https://6abb6234b2118ed7abb86df1.mockapi.io/movies';
 
   const loadMovies = () => {
     fetch(url)
